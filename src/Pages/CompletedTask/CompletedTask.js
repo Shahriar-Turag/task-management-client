@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from "react";
-import EditToDoModal from "./EditToDoModal";
+import EditToDoModal from "../Home/EditToDoModal";
 
-const ToDoTable = () => {
+const CompletedTask = () => {
     const [todos, setTodos] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         setLoading(true);
-        fetch("http://localhost:5000/todos")
+        fetch(`http://localhost:5000/todos`, {
+            method: "GET",
+        })
             .then((res) => res.json())
             .then((data) => {
-                setTodos(data);
+                const completedTodos = data.filter(
+                    (todo) => todo.status === "completed"
+                );
+                setTodos(completedTodos);
                 setLoading(false);
                 console.log(data);
+                console.log(completedTodos);
             });
     }, []);
 
@@ -84,4 +90,4 @@ const ToDoTable = () => {
     );
 };
 
-export default ToDoTable;
+export default CompletedTask;

@@ -6,7 +6,6 @@ import ToDoTable from "./ToDoTable";
 const Home = () => {
     return (
         <div>
-            <Navbar />
             <AddTodo />
             <ToDoTable />
         </div>

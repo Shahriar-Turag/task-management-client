@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
     return (
@@ -26,13 +27,18 @@ const Navbar = () => {
                         class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
                     >
                         <li>
-                            <a>Completed Task</a>
+                            <Link to="/todo">To Do</Link>
                         </li>
-                        <li tabindex="0">
-                            <a class="justify-between">To Do</a>
+
+                        <li>
+                            <Link to="/completedTask">Completed Task</Link>
+                        </li>
+
+                        <li>
+                            <Link to="allTask">All Task</Link>
                         </li>
                         <li>
-                            <a>Calender</a>
+                            <Link to="/calender">Calender</Link>
                         </li>
                     </ul>
                 </div>
@@ -41,13 +47,18 @@ const Navbar = () => {
             <div class="navbar-center hidden lg:flex">
                 <ul class="menu menu-horizontal p-0">
                     <li>
-                        <a>Completed Task</a>
+                        <Link to="/todo">To Do</Link>
                     </li>
-                    <li tabindex="0">
-                        <a>To Do</a>
+
+                    <li>
+                        <Link to="/completedTask">Completed Task</Link>
+                    </li>
+
+                    <li>
+                        <Link to="/allTask">All Task</Link>
                     </li>
                     <li>
-                        <a>Calender</a>
+                        <Link to="/calender">Calender</Link>
                     </li>
                 </ul>
             </div>

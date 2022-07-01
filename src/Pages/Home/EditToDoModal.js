@@ -1,31 +1,36 @@
-import axios from "axios";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
-import "react-datepicker/dist/react-datepicker.css";
-
-const AddTodoModal = () => {
+const EditToDoModal = ({ todo }) => {
     const { register, handleSubmit, reset } = useForm();
 
     const [selectedDate, setSelectedDate] = useState(new Date());
+    let { _id } = todo;
 
     const onSubmit = (data) => {
-        axios.post("http://localhost:5000/todos", data).then((res) => {
-            if (res.data.insertedId) {
-                alert("Task Added Successfully...!");
-                reset();
-                console.log(data);
-            }
-        });
+        fetch(`http://localhost:5000/todos/${_id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        })
+            .then((res) => res.json())
+            .then((res) => {
+                if (data.modifiedCount > 0) {
+                    alert("Task Updated Successfully...!");
+                    reset();
+                }
+            });
+        console.log(data);
     };
-    console.log(selectedDate);
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <label for="my-modal-6" class="btn modal-button ml-3">
-                Add
+            <label for={todo._id} class="btn modal-button ml-3">
+                Edit
             </label>
 
-            <input type="checkbox" id="my-modal-6" class="modal-toggle" />
+            <input type="checkbox" id={todo._id} class="modal-toggle" />
             <div class="modal modal-bottom sm:modal-middle">
                 <div class="modal-box">
                     <h3 class="font-bold text-lg">Add your task to the list</h3>
@@ -38,21 +43,25 @@ const AddTodoModal = () => {
                             type="text"
                             placeholder="Type here"
                             class="input input-sm input-bordered w-full max-w-xs"
+                            defaultValue={todo.title}
                         />
                     </div>
                     <div class="form-control">
                         <label class="label">
-                            <span class="label-text">description</span>
+                            <span class="label-text">Description</span>
                         </label>
                         <textarea
                             {...register("description")}
                             class="textarea textarea-bordered h-24"
                             placeholder="Bio"
+                            defaultValue={todo.description}
                         ></textarea>
                     </div>
                     <div className="flex justify-between">
                         <div>
-                            <p>priority</p>
+                            <label class="label">
+                                <span class="label-text">Priority</span>
+                            </label>
                             <div className="flex items-center space-x-4">
                                 <div className="flex items-center">
                                     <input
@@ -64,6 +73,7 @@ const AddTodoModal = () => {
                                         name="priority"
                                         value="Low"
                                         className="mt-1"
+                                        defaultChecked={todo.priority === "Low"}
                                     />{" "}
                                     <label htmlFor="low" class="">
                                         {" "}
@@ -80,6 +90,9 @@ const AddTodoModal = () => {
                                         name="priority"
                                         value="Medium"
                                         className="mt-1"
+                                        defaultChecked={
+                                            todo.priority === "Medium"
+                                        }
                                     />{" "}
                                     <label htmlFor="medium" class="">
                                         {" "}
@@ -96,6 +109,9 @@ const AddTodoModal = () => {
                                         name="priority"
                                         value="High"
                                         className="mt-1"
+                                        defaultChecked={
+                                            todo.priority === "High"
+                                        }
                                     />{" "}
                                     <label htmlFor="high" class="">
                                         {" "}
@@ -106,7 +122,9 @@ const AddTodoModal = () => {
                         </div>
 
                         <div>
-                            <p>Pick a date</p>
+                            <label class="label">
+                                <span class="label-text">Pick a Date</span>
+                            </label>
                             <div>
                                 <input
                                     {...register("date", {
@@ -118,12 +136,16 @@ const AddTodoModal = () => {
                                     }
                                     value={selectedDate}
                                     className="input input-sm input-bordered w-full max-w-xs"
+                                    dateFormat="dd-mm-yyyy"
+                                    defaultValue={todo.date}
                                 />
                             </div>
                         </div>
                     </div>
                     <div>
-                        <p>Status</p>
+                        <label class="label">
+                            <span class="label-text">Status</span>
+                        </label>
                         <div className="flex items-center space-x-4">
                             <div className="flex items-center">
                                 <input
@@ -133,6 +155,7 @@ const AddTodoModal = () => {
                                     name="status"
                                     value="New"
                                     className="mt-1"
+                                    defaultChecked={todo.status === "New"}
                                 />{" "}
                                 <label htmlFor="new" class="">
                                     {" "}
@@ -147,6 +170,9 @@ const AddTodoModal = () => {
                                     name="status"
                                     value="In Progress"
                                     className="mt-1"
+                                    defaultChecked={
+                                        todo.status === "In Progress"
+                                    }
                                 />{" "}
                                 <label htmlFor="inProgress" class="">
                                     {" "}
@@ -161,6 +187,7 @@ const AddTodoModal = () => {
                                     name="status"
                                     value="Completed"
                                     className="mt-1"
+                                    defaultChecked={todo.status === "Completed"}
                                 />{" "}
                                 <label htmlFor="completed" class="">
                                     {" "}
@@ -171,10 +198,10 @@ const AddTodoModal = () => {
                     </div>
 
                     <div class="modal-action">
-                        <label for="my-modal-6" class="btn btn-outline">
+                        <label for={todo._id} class="btn btn-outline">
                             Cancel
                         </label>
-                        <input type="submit" value="Add" className="btn " />
+                        <input type="submit" value="Edit" className="btn " />
                     </div>
                 </div>
             </div>
@@ -182,4 +209,4 @@ const AddTodoModal = () => {
     );
 };
 
-export default AddTodoModal;
+export default EditToDoModal;

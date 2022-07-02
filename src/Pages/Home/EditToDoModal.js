@@ -179,21 +179,6 @@ const EditToDoModal = ({ todo }) => {
                                     In Progress
                                 </label>
                             </div>
-                            <div className="flex items-center">
-                                <input
-                                    {...register("status")}
-                                    id="completed"
-                                    type="radio"
-                                    name="status"
-                                    value="Completed"
-                                    className="mt-1"
-                                    defaultChecked={todo.status === "Completed"}
-                                />{" "}
-                                <label htmlFor="completed" class="">
-                                    {" "}
-                                    Completed
-                                </label>
-                            </div>
                         </div>
                     </div>
 

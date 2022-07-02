@@ -13,7 +13,7 @@ const CompletedTask = () => {
             .then((res) => res.json())
             .then((data) => {
                 const completedTodos = data.filter(
-                    (todo) => todo.status === "completed"
+                    (todo) => todo.status === "Completed"
                 );
                 setTodos(completedTodos);
                 setLoading(false);
